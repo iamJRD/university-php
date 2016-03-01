@@ -195,5 +195,45 @@
            // Assert
            $this->assertEquals($test_student->getCourses(), [$test_course]);
        }
+       function testDelete() {
+           //Arrange;
+           $name = "Jim";
+           $enrollment = "2016-03-01";
+           $id = 1;
+           $test_student = new Student($name, $enrollment, $id);
+           $test_student->save();
+
+           $name2 = "Joe";
+           $enrollment2 = "2016-03-02";
+           $id2 = 2;
+           $test_student2 = new Student($name2, $enrollment2, $id2);
+           $test_student2->save();
+
+           //Act;
+           $test_student2->delete();
+
+           //Assert;
+           $this->assertEquals([$test_student], Student::getAll());
+       }
+
+       function testUpdate()
+       {
+           // Arrange
+           $name = "Jim";
+           $enrollment = "2016-03-01";
+           $id = 1;
+           $test_student = new Student($name, $enrollment, $id);
+           $test_student->save();
+
+           $new_name = "Jack";
+           $new_enrollment= "2016-03-02";
+
+           // Act
+           $test_student->update($new_name, $new_enrollment);
+           $result = [$test_student->getName(), $test_student->getEnrollment()];
+
+           // Assert
+           $this->assertEquals(["Jack", "2016-03-02"], $result);
+       }
 }
 ?>

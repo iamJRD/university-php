@@ -74,5 +74,40 @@
             }
             return $found_course;
         }
+        public function delete()
+        {
+            $GLOBALS['DB']->exec("DELETE FROM courses WHERE id = {$this->getId()};");
+            $GLOBALS['DB']->exec("DELETE FROM students_courses WHERE course_id = {$this->getId()};");
+        }
+
+        public function update($new_name, $new_course_number)
+        {
+            $GLOBALS['DB']->exec("UPDATE courses SET name = '{$new_name}', course_number = '{$new_course_number}' WHERE id = {$this->getId()};");
+            $this->setName($new_name);
+            $this->setCourseNumber($new_course_number);
+        }
+
+        function addStudent($student)
+        {
+            $GLOBALS['DB']->exec("INSERT INTO students_courses (course_id, student_id) VALUES ({$this->getId()}, {$student->getId()});");
+        }
+
+        function getStudents()
+        {
+            $query = $GLOBALS['DB']->query("SELECT students.* FROM courses JOIN students_courses ON (courses.id = students_courses.course_id) JOIN students ON (students_courses.student_id = students.id) WHERE course_id = {$this->getId()};");
+
+            $student_ids = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $students = array();
+            foreach($student_ids as $student) {
+                $name = $student['name'];
+                $enrollment = $student['enrollment'];
+                $id = $student['id'];
+                $new_student = new Student($name, $enrollment, $id);
+                array_push($students, $new_student);
+            }
+            return $students;
+        }
+
     }
 ?>
