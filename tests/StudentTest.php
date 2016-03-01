@@ -14,6 +14,13 @@
 
     class StudentTest extends PHPUnit_Framework_TestCase
     {
+
+        protected function tearDown()
+        {
+          Student::deleteAll();
+        
+        }
+
         function testGetName()
         {
             //Arrange
@@ -41,5 +48,81 @@
             // Assert
             $this->assertEquals($enrollment, $result);
         }
-    }
+
+        function testGetId()
+        {
+            // Arrange
+            $name = "Joe";
+            $enrollment = "2016-03-01";
+            $id = null;
+            $test_student = new Student($name, $enrollment, $id);
+
+            // Act
+            $result = $test_student->getId();
+
+            // Assert
+            $this->assertEquals($id, $result);
+        }
+
+
+        function testSave()
+        {
+            //Arrange
+            $name = "Joe";
+            $enrollment = "2016-03-01";
+            $test_student = new Student($name, $enrollment);
+            $test_student->save();
+
+            //Act
+            $result = Student::getAll();
+
+            //Assert
+            $this->assertEquals($test_student, $result[0]);
+        }
+
+        function testGetAll()
+        {
+            //Arrange
+            $name = "Joe";
+            $enrollment = "2016-03-01";
+            $id = 1;
+            $test_student = new Student($name, $enrollment, $id);
+            $test_student->save();
+
+            $name2 = "Jim";
+            $enrollment2 = "2016-03-02";
+            $id2 = 2;
+            $test_student2 = new Student($name2, $enrollment2, $id2);
+            $test_student2->save();
+
+            //Act
+            $result = Student::getAll();
+
+            //Assert
+            $this->assertEquals([$test_student, $test_student2], $result);
+        }
+
+        function testDeleteAll()
+        {
+            //Arrange
+            $name = "Jim";
+            $enrollment = "2016-03-01";
+            $id = 1;
+            $test_student = new Student($name, $enrollment, $id);
+            $test_student->save();
+
+            $name2 = "Joe";
+            $enrollment2 = "2016-03-02";
+            $id2 = 2;
+            $test_student2 = new Student($name2, $enrollment2, $id2);
+            $test_student2->save();
+
+            //Act
+            Student::deleteAll();
+            $result = Student::getAll();
+
+            //Assert
+            $this->assertEquals([], $result);
+        }
+}
 ?>
