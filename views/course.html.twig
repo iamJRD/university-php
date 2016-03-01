@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>To Do List</title>
+        <title>University Registrar</title>
     </head>
     <body>
         <h1>{{ course.getName }}</h1>
@@ -15,7 +15,7 @@
         {% else %}
             <p>You currently don't have any students! Use the form below to get started!</p>
         {% endif %}
-<!-- ADD TASK TO CATEGORY DROPDOWN -->
+<!-- ADD STUDENT TO COURSE DROPDOWN -->
         <h3>Add a student</h3>
         <form action="/course_add_student" method="post">
             <input id="course_id" = name="course_id" type="hidden" value="{{ course.getId }}">
@@ -29,7 +29,7 @@
 
             <button type="submit">Add Student</button>
         </form>
-<!-- EDIT CATEGORY FORM -->
+<!-- EDIT COURSE FORM -->
         <h3>Edit this course</h3>
         <form action="/course/{{ course.getId }}/update" method="post">
             <input type="hidden" name="_method" value="patch">
