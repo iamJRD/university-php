@@ -4,12 +4,14 @@
         private $name;
         private $enrollment;
         private $id;
+        private $department_id;
 
-        function __construct($name, $enrollment, $id=null)
+        function __construct($name, $enrollment, $id=null, $department_id=null)
         {
             $this->name = $name;
             $this->enrollment = $enrollment;
             $this->id = $id;
+            $this->department_id = $department_id;
         }
         function setName($new_name)
         {
@@ -30,6 +32,10 @@
         function getId()
         {
             return $this->id;
+        }
+        function getDepartmentId()
+        {
+            return $this->department_id;
         }
         function save()
         {
@@ -89,6 +95,11 @@
         function addCourse($course)
         {
             $GLOBALS['DB']->exec("INSERT INTO students_courses (course_id, student_id) VALUES ({$course->getId()}, {$this->getId()});");
+        }
+
+        function addDepartment($department)
+        {
+            $GLOBALS['DB']->exec("INSERT INTO students (department_id) VALUES ({$department->getId()});");
         }
         public function delete()
         {

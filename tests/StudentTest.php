@@ -26,7 +26,8 @@
             //Arrange
             $name = "Joe";
             $enrollment = "2016-03-01";
-            $test_student = new Student($name, $enrollment);
+            $department_id = null;
+            $test_student = new Student($name, $enrollment, $department_id);
 
             //Act
             $result = $test_student->getName();
@@ -40,7 +41,8 @@
             // Arrange
             $name = "Joe";
             $enrollment = "2016-03-01";
-            $test_student = new Student($name, $enrollment);
+            $department_id = null;
+            $test_student = new Student($name, $enrollment, $department_id);
 
             // Act
             $result = $test_student->getEnrollment();
@@ -55,7 +57,8 @@
             $name = "Joe";
             $enrollment = "2016-03-01";
             $id = null;
-            $test_student = new Student($name, $enrollment, $id);
+            $department_id = null;
+            $test_student = new Student($name, $enrollment, $id, $department_id);
 
             // Act
             $result = $test_student->getId();
@@ -70,7 +73,8 @@
             //Arrange
             $name = "Joe";
             $enrollment = "2016-03-01";
-            $test_student = new Student($name, $enrollment);
+            $department_id = null;
+            $test_student = new Student($name, $enrollment, $department_id);
             $test_student->save();
 
             //Act
@@ -86,13 +90,14 @@
             $name = "Joe";
             $enrollment = "2016-03-01";
             $id = 1;
-            $test_student = new Student($name, $enrollment, $id);
+            $department_id = null;
+            $test_student = new Student($name, $enrollment, $id, $department_id);
             $test_student->save();
 
             $name2 = "Jim";
             $enrollment2 = "2016-03-02";
             $id2 = 2;
-            $test_student2 = new Student($name2, $enrollment2, $id2);
+            $test_student2 = new Student($name2, $enrollment2, $id2, $department_id);
             $test_student2->save();
 
             //Act
@@ -108,13 +113,14 @@
             $name = "Jim";
             $enrollment = "2016-03-01";
             $id = 1;
-            $test_student = new Student($name, $enrollment, $id);
+            $department_id = null;
+            $test_student = new Student($name, $enrollment, $id, $department_id);
             $test_student->save();
 
             $name2 = "Joe";
             $enrollment2 = "2016-03-02";
             $id2 = 2;
-            $test_student2 = new Student($name2, $enrollment2, $id2);
+            $test_student2 = new Student($name2, $enrollment2, $id2, $department_id);
             $test_student2->save();
 
             //Act
@@ -130,13 +136,14 @@
          $name = "Jim";
          $enrollment = "2016-03-01";
          $id = 1;
-         $test_student = new Student($name, $enrollment, $id);
+         $department_id = null;
+         $test_student = new Student($name, $enrollment, $id, $department_id);
          $test_student->save();
 
          $name2 = "Joe";
          $enrollment2 = "2016-03-02";
          $id2 = 2;
-         $test_student2 = new Student($name2, $enrollment2, $id2);
+         $test_student2 = new Student($name2, $enrollment2, $id2, $department_id);
          $test_student2->save();
 
          //Act;
@@ -151,7 +158,8 @@
            $name = "Jim";
            $enrollment = "2016-03-01";
            $id = 1;
-           $test_student = new Student($name, $enrollment, $id);
+           $department_id = null;
+           $test_student = new Student($name, $enrollment, $id, $department_id);
            $test_student->save();
 
            $name = "Intro to Programming";
@@ -180,7 +188,8 @@
            $name = "Jim";
            $enrollment = "2016-03-01";
            $id = 1;
-           $test_student = new Student($name, $enrollment, $id);
+           $department_id = null;
+           $test_student = new Student($name, $enrollment, $id, $department_id);
            $test_student->save();
 
            $name = "Intro to Programming";
@@ -195,18 +204,41 @@
            // Assert
            $this->assertEquals($test_student->getCourses(), [$test_course]);
        }
+
+       function testAddDepartment()
+       {
+           // Arrange
+           $name = "Jim";
+           $enrollment = "2016-03-01";
+           $id = 1;
+           $department_id = 2;
+           $test_student = new Student($name, $enrollment, $id, $department_id);
+           $test_student->save();
+
+           $department_name = "Computer Science";
+           $id2 = 2;
+           $test_department = new Department($department_name, $id2);
+           $test_department->save();
+
+           // Act
+           $test_student->addDepartment($test_department);
+
+           // Assert
+           $this->assertEquals($test_student->getDepartmentId(), $department_id);
+       }
        function testDelete() {
            //Arrange;
            $name = "Jim";
            $enrollment = "2016-03-01";
            $id = 1;
-           $test_student = new Student($name, $enrollment, $id);
+           $department_id = null;
+           $test_student = new Student($name, $enrollment, $id, $department_id);
            $test_student->save();
 
            $name2 = "Joe";
            $enrollment2 = "2016-03-02";
            $id2 = 2;
-           $test_student2 = new Student($name2, $enrollment2, $id2);
+           $test_student2 = new Student($name2, $enrollment2, $id2, $department_id);
            $test_student2->save();
 
            //Act;
@@ -222,7 +254,8 @@
            $name = "Jim";
            $enrollment = "2016-03-01";
            $id = 1;
-           $test_student = new Student($name, $enrollment, $id);
+           $department_id = null;
+           $test_student = new Student($name, $enrollment, $id, $department_id);
            $test_student->save();
 
            $new_name = "Jack";
