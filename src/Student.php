@@ -56,5 +56,41 @@
         {
             $GLOBALS['DB']->exec("DELETE FROM students;");
         }
+
+        static function find($search_id)
+        {
+            $found_student = null;
+            $students = Student::getAll();
+            foreach($students as $student) {
+                $student_id = $student->getId();
+                if ($student_id == $search_id) {
+                  $found_student = $student;
+                }
+            }
+            return $found_student;
+        }
+
+        function getCourses()
+        {
+            $query = $GLOBALS['DB']->query("SELECT courses.* FROM students JOIN students_courses ON (students.id = students_courses.student_id) JOIN courses ON (students_courses.course_id = courses.id) WHERE student_id = {$this->getId()};");
+
+            $course_ids = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $courses = array();
+            foreach($course_ids as $course) {
+                $name = $course['name'];
+                $course_number = $course['course_number'];
+                $id = $course['id'];
+                $new_course = new Course($name, $course_number, $id);
+                array_push($courses, $new_course);
+            }
+            return $courses;
+        }
+        function addCourse($course)
+        {
+            $GLOBALS['DB']->exec("INSERT INTO students_courses (course_id, student_id) VALUES ({$course->getId()}, {$this->getId()});");
+        }
+
+
     }
 ?>
