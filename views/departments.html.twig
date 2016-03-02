@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title>University Registrar</title>
+    </head>
+    <body>
+        <h1>Departments</h1>
+<!-- DISPLAY AREA -->
+        {% if departments is not empty %}
+            <h3>List of current departments:</h3>
+            <ul>
+                {% for department in departments %}
+                    <li><a href="/department/{{ department.getId }}">{{ department.getName }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <h3>You currently don't have any departments listed! Use the form below to add a department.</h3>
+        {% endif %}
+<!-- END DISPLAY AREA -->
+<!-- START ADD STUDENT FORM -->
+        <form action="/add_department" method="post">
+            <label for="name">Department Name:</label>
+            <input type="text" name="name" required>
+
+            <button type="submit">Add Department</button>
+        </form>
+<!-- END ADD STUDENT FORM -->
+        <form action="/delete_all_departments" method="post">
+            <button type="submit">Delete ALL Departments</button>
+        </form>
+<!-- NAVIGATION -->
+        {% include 'footer.html' %}
+
+    </body>
+</html>

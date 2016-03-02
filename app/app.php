@@ -2,6 +2,7 @@
     require_once __DIR__ .'/../vendor/autoload.php';
     require_once __DIR__.'/../src/Student.php';
     require_once __DIR__.'/../src/Course.php';
+    require_once __DIR__.'/../src/Department.php';
 
     $app = new Silex\Application();
 
@@ -27,6 +28,10 @@
 
     $app->get("/courses", function() use ($app) {
         return $app['twig']->render('courses.html.twig', array('courses' => Course::getAll()));
+    });
+
+    $app->get("/departments", function() use ($app) {
+        return $app['twig']->render('departments.html.twig', array('departments' => Department::getAll()));
     });
 
     $app->post("/delete_all", function() use ($app) {
@@ -114,8 +119,18 @@
         $course->delete();
         return $app['twig']->render("courses.html.twig", array('courses' => Course::getAll()));
     });
+// DEPARTMENTS PAGES
+    $app->post("/add_department", function() use ($app) {
+        $name = $_POST['name'];
+        $new_department = new Department($name);
+        $new_department->save();
+        return $app['twig']->render('departments.html.twig', array('departments' => Department::getAll()));
+    });
 
-
+    $app->get("/department/{id}", function($id) use ($app) {
+        $department = Department::find($id);
+        return $app['twig']->render('department.html.twig', array('department' => $department, 'courses' => $department->getCourses(), ))
+    });
 
 
 

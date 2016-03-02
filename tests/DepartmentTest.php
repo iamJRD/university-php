@@ -6,6 +6,8 @@
     */
 
     require_once "src/Department.php";
+    require_once "src/Course.php";
+    require_once "src/Student.php";
 
     $server = 'mysql:host=localhost;dbname=university_test';
     $username = 'root';
@@ -18,6 +20,8 @@
         protected function tearDown()
         {
           Department::deleteAll();
+          Course::deleteAll();
+          Student::deleteAll();
 
         }
 
@@ -197,6 +201,35 @@
 
             //Assert;
             $this->assertEquals($new_name, $result);
+        }
+
+        function testGetStudents()
+        {
+            // Arrange
+            $name = "Computer Science";
+            $id = null;
+            $test_department = new Department($name, $id);
+            $test_department->save();
+
+            $name2 = "Joe";
+            $enrollment = "2016-03-01";
+            $id2 = 1;
+            $department_id = $test_department->getId();
+            $test_student = new Student($name2, $enrollment, $id2, $department_id);
+            $test_student->save();
+
+            $name3 = "Jim";
+            $enrollment2 = "2016-03-02";
+            $id3 = 2;
+            $department_id2 = null;
+            $test_student2 = new Student($name3, $enrollment2, $id3, $department_id2);
+            $test_student2->save();
+
+            // Act
+            $result = $test_department->getStudents();
+
+            // Assert
+            $this->assertEquals([$test_student], $result);
         }
     }
 

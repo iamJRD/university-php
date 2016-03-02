@@ -67,7 +67,6 @@
         {
             $returned_courses = $GLOBALS['DB']->query("SELECT courses.* FROM departments JOIN departments_courses ON (departments.id = departments_courses.department_id) JOIN courses ON (departments_courses.course_id = courses.id) WHERE department_id = {$this->getId()};");
 
-
             $courses = array();
             foreach($returned_courses as $course) {
                 $name = $course['name'];
@@ -93,6 +92,21 @@
         {
             $GLOBALS['DB']->exec("UPDATE departments SET name = '{$new_name}' WHERE id = {$this->getId()};");
             $this->setName($new_name);
+        }
+
+        function getStudents()
+        {
+            $returned_students = $GLOBALS['DB']->query("SELECT * FROM students WHERE department_id = {$this->getId()};");
+            $students = array();
+            foreach($returned_students as $student) {
+                $name = $student['name'];
+                $enrollment = $student['enrollment'];
+                $id = $student['id'];
+                $department_id = $student['department_id'];
+                $new_student = new Student($name, $enrollment, $id, $department_id);
+                array_push($students, $new_student);
+            }
+            return $students;
         }
     }
 

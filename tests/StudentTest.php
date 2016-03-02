@@ -226,7 +226,8 @@
            // Assert
            $this->assertEquals($test_student->getDepartmentId(), $department_id);
        }
-       function testDelete() {
+       function testDelete()
+       {
            //Arrange;
            $name = "Jim";
            $enrollment = "2016-03-01";
